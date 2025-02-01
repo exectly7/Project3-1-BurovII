@@ -1,0 +1,18 @@
+﻿{
+    "elements": [
+        {
+            "id": "_ability.fatigued",
+			"aspects": {"ability":1,"fatigued":1},
+            "noartneeded":true
+        },
+
+        {
+            "ID": "true",
+            "label": "Хор",
+            "desc": "Рвение. Инстинкт. Ритм. [Одна из девяти частей души человека.]",
+			"aspects": {"rank":12,"campable":1,"ability":1,"heart":2,"grail":1,"boost.heart":2,"boost.grail":1,".cho":1},
+            "xtriggers":{"fatiguing":"zcho","fatiguing.ability":"zcho","malady.inflicting":"mcho","contamination.bloodlines":"mcho","contamination.keeperskin":"mcho"}
+            
+        }
+    ]
+}
