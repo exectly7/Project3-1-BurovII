@@ -3,95 +3,63 @@
     public class Aspects : IJsonObject
     {
         /// <summary>
-        /// Содержит список проинициализированных полей.
+        /// Словарь, содержащий все аспекты и их значения.
         /// </summary>
-        public HashSet<string> InitializedFields { get; set; }
-
-        /// <summary>
-        /// Поле fatiguing.
-        /// </summary>
-        public string? Fatiguing { get; private set; }
-        
+        public Dictionary<string, int> AspectsDictionary { get; private set; }
 
         public Aspects(string source)
         {
-            Dictionary<string, string> ability = JsonParser.ParseObject(source);
-            InitializedFields = new HashSet<string>();
-            foreach (KeyValuePair<string, string> field in ability)
+            AspectsDictionary = new Dictionary<string, int>();
+            Dictionary<string, string> parsedAspects = JsonParser.ParseObject(source);
+
+            foreach (KeyValuePair<string, string> field in parsedAspects)
             {
-                SetField(field.Key, field.Value);    
+                SetField(field.Key, field.Value);
             }
         }
 
+        public HashSet<string> InitializedFields { get; set; }
+
+        /// <summary>
+        /// Возвращает список всех инициализированных аспектов.
+        /// </summary>
         public IEnumerable<string> GetAllFields()
         {
-            return InitializedFields.ToArray(); // Выбрать массив или лист.
+            return AspectsDictionary.Keys;
         }
 
+        /// <summary>
+        /// Возвращает значение указанного аспекта, если он существует.
+        /// </summary>
         public string? GetField(string fieldName)
         {
-            
-            if (!InitializedFields.Contains(fieldName))
-            {
-                return null;
-            }
-            
-            switch (fieldName)
-            {
-                case "fatiguing":
-                    return JsonParser.StringToQuotedString(Fatiguing);
-                case "fatiguing.ability":
-                    //return JsonParser.StringToQuotedString(FatiguingAbility);
-                case "malady.inflicting":
-                    //return JsonParser.StringToQuotedString(MaladyInflicting);
-                case "contamination.bloodlines":
-                   // return JsonParser.StringToQuotedString(ContamintationBloodlines);
-                case "contamination.keeperskin":
-                    break;
-                // return JsonParser.StringToQuotedString(ContaminationKeeperskin);
-                
-            }
-            return null;
+            return AspectsDictionary.TryGetValue(fieldName, out int value) ? value.ToString() : null;
         }
 
-        // сюда скорее всего надо пихать вообще что угодно что после двоеточия стоит в jsone
-        public void SetField(string fieldName, string value) 
+        /// <summary>
+        /// Устанавливает значение для указанного аспекта.
+        /// Если значение не является числом, программа завершится с ошибкой.
+        /// </summary>
+        public void SetField(string fieldName, string value)
         {
-            switch (fieldName)
+            if (int.TryParse(value, out int intValue))
             {
-                case "fatiguing":
-                    Fatiguing = value[1..^1]; 
-                    InitializedFields.Add("fatiguing");
-                    break;
-                case "fatiguing.ability":
-                    //FatiguingAbility = value[1..^1]; 
-                    InitializedFields.Add("fatiguing.ability");
-                    break;
-                case "malady.inflicting":
-                    //MaladyInflicting = value[1..^1]; 
-                    InitializedFields.Add("malady.inflicting");
-                    break;
-                case "contamination.bloodlines":
-                    //ContamintationBloodlines = value[1..^1]; 
-                    InitializedFields.Add("contamination.bloodlines");
-                    break;
-                case "contamination.keeperskin":
-                    //ContaminationKeeperskin = value[1..^1]; 
-                    InitializedFields.Add("contamination.keeperskin");
-                    break;
-                
+                AspectsDictionary[fieldName] = intValue;
             }
-            return;
+            else
+            {
+                Console.WriteLine($"Ошибка: Некорректное значение для {fieldName} = {value}");
+                Environment.Exit(-1);
+            }
         }
 
+        /// <summary>
+        /// Преобразует объект в JSON-строку, включая только инициализированные аспекты.
+        /// </summary>
         public override string ToString()
         {
-            Dictionary<string, string> aspects = new();
-            foreach (string field in GetAllFields())
-            {
-                aspects[field] = GetField(field);
-            }
-            return JsonParser.CreateJson(aspects, false);
+            Dictionary<string, string> aspectsString = AspectsDictionary.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.ToString());
+            return JsonParser.CreateJson(aspectsString, false);
         }
     }
 }

@@ -28,9 +28,59 @@
         public XTrigger? ContamintationBloodlines { get; private set; }
         
         /// <summary>
+        /// Поле contamination.curse.fifth.eye.
+        /// </summary>
+        public XTrigger? ContaminationCurseFifthEye { get; private set; }
+        
+        /// <summary>
         /// Поле contamination.keeperskin.
         /// </summary>
         public XTrigger? ContaminationKeeperskin { get; private set; }
+        
+        /// <summary>
+        /// Поле contamination.winkwell.
+        /// </summary>
+        public XTrigger? ContaminationWinkwell { get; private set; }
+        
+        /// <summary>
+        /// Поле contamination.chionic.
+        /// </summary>
+        public XTrigger? ContaminationChionic { get; private set; }
+        
+        /// <summary>
+        /// Поле contamination.sthenic.taint.
+        /// </summary>
+        public XTrigger? ContaminationSthenicTaint { get; private set; }
+        
+        /// <summary>
+        /// Поле drying.
+        /// </summary>
+        public XTrigger? Drying { get; private set; }
+        
+        /// <summary>
+        /// Поле contamination.actinic.
+        /// </summary>
+        public XTrigger? ContaminationActinic { get; private set; }
+        
+        /// <summary>
+        /// Поле contamination.witchworms.
+        /// </summary>
+        public XTrigger? ContaminationWitchworms { get; private set; }
+        
+        /// <summary>
+        /// Поле recovering.
+        /// </summary>
+        public XTrigger? Recovering { get; private set; }
+        
+        /// <summary>
+        /// Поле recovering.ability.
+        /// </summary>
+        public XTrigger? RecoveringAbility { get; private set; }
+        
+        /// <summary>
+        /// Поле malady.curing.
+        /// </summary>
+        public XTrigger? MaladyCuring { get; private set; }
 
         public XTriggers(string source)
         {
@@ -67,12 +117,33 @@
                     return ContamintationBloodlines.ToString();
                 case "contamination.keeperskin":
                     return ContaminationKeeperskin.ToString();
-                
+                case "contamination.curse.fifth.eye":
+                    return ContaminationCurseFifthEye.ToString();
+                case "contamination.winkwell":
+                    return ContaminationWinkwell.ToString();
+                case "contamination.chionic":
+                    return ContaminationChionic.ToString();
+                case "contamination.sthenic.taint":
+                    return ContaminationSthenicTaint.ToString();
+                case "drying":
+                    return Drying.ToString();
+                case "contamination.actinic":
+                    return ContaminationActinic.ToString();
+                case "contamination.witchworms":
+                    return ContaminationWitchworms.ToString();
+                case "recovering":
+                    return Recovering.ToString();
+                case "recovering.ability":
+                    return RecoveringAbility.ToString();
+                case "malady.curing":
+                    return MaladyCuring.ToString();
             }
+            Console.WriteLine($"Unknown field: {fieldName}");
+            Console.ReadLine();
             return null;
         }
 
-        // сюда скорее всего надо пихать вообще что угодно что после двоеточия стоит в jsone
+        // Видит Бог я не хотел хранить это в полях.
         public void SetField(string fieldName, string value) 
         {
             switch (fieldName)
@@ -97,9 +168,51 @@
                     ContaminationKeeperskin = new XTrigger(value); 
                     InitializedFields.Add("contamination.keeperskin");
                     break;
-                
+                case "contamination.curse.fifth.eye":
+                    ContaminationCurseFifthEye = new XTrigger(value); 
+                    InitializedFields.Add("contamination.curse.fifth.eye");
+                    break;
+                case "contamination.winkwell":
+                    ContaminationWinkwell = new XTrigger(value); 
+                    InitializedFields.Add("contamination.winkwell");
+                    break;
+                case "contamination.chionic":
+                    ContaminationChionic = new XTrigger(value); 
+                    InitializedFields.Add("contamination.chionic");
+                    break;
+                case "contamination.sthenic.taint":
+                    ContaminationSthenicTaint = new XTrigger(value); 
+                    InitializedFields.Add("contamination.sthenic.taint");
+                    break;
+                case "drying":
+                    Drying = new XTrigger(value); 
+                    InitializedFields.Add("drying");
+                    break;
+                case "contamination.actinic":
+                    ContaminationActinic = new XTrigger(value); 
+                    InitializedFields.Add("contamination.actinic");
+                    break;
+                case "contamination.witchworms":
+                    ContaminationWitchworms = new XTrigger(value); 
+                    InitializedFields.Add("contamination.witchworms");
+                    break;
+                case "recovering":
+                    Recovering = new XTrigger(value); 
+                    InitializedFields.Add("recovering");
+                    break;
+                case "recovering.ability":
+                    RecoveringAbility = new XTrigger(value); 
+                    InitializedFields.Add("recovering.ability");
+                    break;
+                case "malady.curing":
+                    MaladyCuring = new XTrigger(value); 
+                    InitializedFields.Add("malady.curing");
+                    break;
+                default:
+                    Console.WriteLine($"Unknown field: {fieldName}");
+                    Environment.Exit(-1);
+                    break;
             }
-            return;
         }
 
         public override string ToString()

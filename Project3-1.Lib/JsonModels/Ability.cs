@@ -67,6 +67,16 @@ namespace Project3_1.Lib.JsonModels
         /// Поле XTriggers.
         /// </summary>
         public XTriggers? XTriggers { get; private set; }
+        
+        /// <summary>
+        /// Поле xexts.
+        /// </summary>
+        public Xexts? Xexts { get; private set; }
+        
+        /// <summary>
+        /// Поле aspects.
+        /// </summary>
+        public Aspects? Aspects { get; private set; }
 
 
         public Ability(string source)
@@ -118,11 +128,14 @@ namespace Project3_1.Lib.JsonModels
                     return Resaturate.ToString().ToLower();
                 case "xtriggers":
                     return XTriggers.ToString();
+                case "xexts":
+                    return Xexts.ToString();
+                case "aspects":
+                    return Aspects.ToString();
             }
             return null;
         }
-
-        // сюда скорее всего надо пихать вообще что угодно что после двоеточия стоит в jsone
+        
         public void SetField(string fieldName, string value) 
         {
             switch (fieldName)
@@ -167,7 +180,16 @@ namespace Project3_1.Lib.JsonModels
                     XTriggers = new XTriggers(value);
                     InitializedFields.Add("xtriggers");
                     break;
+                case "xexts":
+                    Xexts = new Xexts(value);
+                    InitializedFields.Add("xexts");
+                    break;
+                case "aspects":
+                    Aspects = new Aspects(value);
+                    InitializedFields.Add("aspects");
+                    break;
             }
+
             return;
         }
 

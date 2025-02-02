@@ -65,6 +65,7 @@ namespace Project3_1.Core.Services
             }
             catch (FormatException e)
             {
+                InputHandler.SwitchInputStreamToConsole();
                 OutputHandler.Message(e.Message);
             }
 
