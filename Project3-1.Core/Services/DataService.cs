@@ -41,8 +41,13 @@ namespace Project3_1.Core.Services
                     return true;
                 }
             }
-            Console.Clear();
-            Console.WriteLine("Введите json, по окончанию ввода введите END с новой строки.");
+
+            if (!file)
+            {
+                Console.Clear();
+                Console.WriteLine("Введите json, по окончанию ввода введите END с новой строки.");
+            }
+            
             string json = JsonParser.ReadJson();
             
             try

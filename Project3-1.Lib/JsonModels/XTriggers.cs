@@ -10,27 +10,27 @@
         /// <summary>
         /// Поле fatiguing.
         /// </summary>
-        public string? Fatiguing { get; private set; }
+        public XTrigger? Fatiguing { get; private set; }
         
         /// <summary>
         /// Поле fatiguing.ability.
         /// </summary>
-        public string? FatiguingAbility { get; private set; }
+        public XTrigger? FatiguingAbility { get; private set; }
         
         /// <summary>
         /// Поле malady.inflicting.
         /// </summary>
-        public string? MaladyInflicting { get; private set; }
+        public XTrigger? MaladyInflicting { get; private set; }
         
         /// <summary>
         /// Поле contamintation.bloodlines.
         /// </summary>
-        public string? ContamintationBloodlines { get; private set; }
+        public XTrigger? ContamintationBloodlines { get; private set; }
         
         /// <summary>
         /// Поле contamination.keeperskin.
         /// </summary>
-        public string? ContaminationKeeperskin { get; private set; }
+        public XTrigger? ContaminationKeeperskin { get; private set; }
 
         public XTriggers(string source)
         {
@@ -58,15 +58,15 @@
             switch (fieldName)
             {
                 case "fatiguing":
-                    return JsonParser.StringToQuotedString(Fatiguing);
+                    return Fatiguing.ToString();
                 case "fatiguing.ability":
-                    return JsonParser.StringToQuotedString(FatiguingAbility);
+                    return FatiguingAbility.ToString();
                 case "malady.inflicting":
-                    return JsonParser.StringToQuotedString(MaladyInflicting);
+                    return MaladyInflicting.ToString();
                 case "contamination.bloodlines":
-                    return JsonParser.StringToQuotedString(ContamintationBloodlines);
+                    return ContamintationBloodlines.ToString();
                 case "contamination.keeperskin":
-                    return JsonParser.StringToQuotedString(ContaminationKeeperskin);
+                    return ContaminationKeeperskin.ToString();
                 
             }
             return null;
@@ -78,23 +78,23 @@
             switch (fieldName)
             {
                 case "fatiguing":
-                    Fatiguing = value[1..^1]; 
+                    Fatiguing = new XTrigger(value); 
                     InitializedFields.Add("fatiguing");
                     break;
                 case "fatiguing.ability":
-                    FatiguingAbility = value[1..^1]; 
+                    FatiguingAbility = new XTrigger(value); 
                     InitializedFields.Add("fatiguing.ability");
                     break;
                 case "malady.inflicting":
-                    MaladyInflicting = value[1..^1]; 
+                    MaladyInflicting = new XTrigger(value); 
                     InitializedFields.Add("malady.inflicting");
                     break;
                 case "contamination.bloodlines":
-                    ContamintationBloodlines = value[1..^1]; 
+                    ContamintationBloodlines = new XTrigger(value); 
                     InitializedFields.Add("contamination.bloodlines");
                     break;
                 case "contamination.keeperskin":
-                    ContaminationKeeperskin = value[1..^1]; 
+                    ContaminationKeeperskin = new XTrigger(value); 
                     InitializedFields.Add("contamination.keeperskin");
                     break;
                 

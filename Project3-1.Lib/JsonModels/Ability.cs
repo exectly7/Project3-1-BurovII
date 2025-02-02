@@ -86,18 +86,17 @@ namespace Project3_1.Lib.JsonModels
 
         public IEnumerable<string> GetAllFields()
         {
-            return InitializedFields.ToArray(); // Выбрать массив или лист.
+            return InitializedFields.ToArray();
         }
 
         public string? GetField(string fieldName)
         {
-            
             if (!InitializedFields.Contains(fieldName))
             {
                 return null;
             }
             
-            switch (fieldName)
+            switch (fieldName) 
             {
                 case "id":
                     return JsonParser.StringToQuotedString(Id);

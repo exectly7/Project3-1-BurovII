@@ -1,3 +1,4 @@
+using Project3_1.Lib;
 using Project3_1.Lib.JsonModels;
 using System.ComponentModel.DataAnnotations;
 
@@ -68,7 +69,7 @@ namespace Project3_1.Core.IOHandlers
             {
                 description[0] += " ";
             }
-            description.AddRange(Hyphenate(ability.Desc, width));
+            description.AddRange(Hyphenate(ability.Description, width));
             foreach (string line in description)
             {
                 Console.WriteLine("\u2502" + " " + line + " " + "\u2502" + "\u2591");
@@ -100,77 +101,89 @@ namespace Project3_1.Core.IOHandlers
             }
             Console.WriteLine("\u2524" + "\u2591");
             
-            
             int counter = 0;
-            string finalString = "\u251C";
-            for (int i = 0; i < width + 2; i++)
+            IEnumerable<string> allFields = ability.XTriggers.GetAllFields();
+            int totalFields = allFields.Count();
+
+            foreach (string field in allFields)
             {
-                finalString += "\u2500";
-            }
-            finalString += "\u2524" + "\u2591";
-            foreach (string trigger in ability.XTriggers.GetAllFields())
-            {
-                if (trigger is string)
-                {
-                    
-                }
-                if (counter == ability.XTriggers.Triggers.Count - 1)
-                {
-                    finalString = "\u2514";
-                    for (int i = 0; i < width + 2; i++)
-                    {
-                        finalString += "\u2500";
-                    }
-                    finalString += "\u2518" + "\u2591";
-                }
-                
-                List<string> key = Hyphenate((string)kvp.Key, width);
-                foreach (string line in key)
+                List<string> keyLines = Hyphenate(field, width);
+                foreach (string line in keyLines)
                 {
                     Console.WriteLine("\u2502" + " " + line + " " + "\u2502" + "\u2591");
                 }
+    
                 Console.Write("\u2502" + " ");
-                string arrows = "";
-                for (int i = 0; i < width; i++)
-                {
-                    arrows += "\u2193";
-                }
+                string arrows = new string('\u2193', width);
                 Console.Write(arrows);
                 Console.WriteLine(" " + "\u2502" + "\u2591");
-
-                if (kvp.Value is string)
+    
+                string? fieldValue = ability.XTriggers.GetField(field);
+                if (!string.IsNullOrEmpty(fieldValue))
                 {
-                    List<string> lines = Hyphenate((string)kvp.Value, width);
-                    foreach (string line in lines)
+                    if (fieldValue.StartsWith("[") && fieldValue.EndsWith("]")) 
                     {
-                        Console.WriteLine("\u2502" + " " + line + " " + "\u2502" + "\u2591");
+                        try
+                        {
+                            List<Dictionary<string, string>> parsedList = JsonParser.ParseArray(fieldValue)
+                                .Select(JsonParser.ParseObject)
+                                .ToList();
+
+                            foreach (Dictionary<string, string> dict in parsedList)
+                            {
+                                foreach (KeyValuePair<string, string> kvp in dict)
+                                {
+                                    string valueString = kvp.Value;
+                                    List<string> valueLines;
+                                    if (kvp.Key == "level")
+                                    {
+                                        valueLines = Hyphenate($"{kvp.Key}: {valueString}", width);
+                                    }
+                                    else
+                                    {
+                                        valueLines = Hyphenate($"{kvp.Key}: {valueString[1..^1]}", width);
+                                    }
+                                    
+                                    foreach (string line in valueLines)
+                                    {
+                                        Console.WriteLine("\u2502" + " " + line + " " + "\u2502" + "\u2591");
+                                    }
+                                }
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            List<string> valueLines = Hyphenate(fieldValue, width);
+                            foreach (string line in valueLines)
+                            {
+                                Console.WriteLine("\u2502" + " " + line + " " + "\u2502" + "\u2591");
+                            }
+                        }
                     }
-                }
-
-                if (kvp.Value is List<object>)
-                {
-                    List<object> temp = (List<object>)kvp.Value;
-                    Dictionary<string, object> inTrigger = (Dictionary<string, object>)temp[0];
-                    foreach (KeyValuePair<string, object> value in inTrigger)
+                    else 
                     {
-                        string val = "";
-                        if (value.Value is string)
-                        {
-                            val = (string)value.Value;
-                        }
-                        else if (value.Value is int)
-                        {
-                            val = ((int)value.Value).ToString();
-                        }
-                        
-                        List<string> lines = Hyphenate(value.Key + ": " + val, width);
-                        foreach (string line in lines)
+                        List<string> valueLines = Hyphenate(fieldValue[1..^1], width);
+                        foreach (string line in valueLines)
                         {
                             Console.WriteLine("\u2502" + " " + line + " " + "\u2502" + "\u2591");
                         }
                     }
                 }
-                Console.WriteLine(finalString);
+    
+                if (counter < totalFields)
+                {
+                    string finalString = "\u251C";
+                    for (int i = 0; i < width + 2; i++)
+                    {
+                        finalString += "\u2500";
+                    }
+                    finalString += "\u2524" + "\u2591";
+                    if (counter == totalFields - 1)
+                    {
+                        finalString = "\u2514" + new string('\u2500', width + 2) + "\u2518" + "\u2591";
+                    }
+                    Console.WriteLine(finalString);
+                }
                 counter++;
             }
 
@@ -179,7 +192,6 @@ namespace Project3_1.Core.IOHandlers
                 Console.Write("\u2591");
             }
             Console.WriteLine();
-            
         }
         
         /// <summary>
