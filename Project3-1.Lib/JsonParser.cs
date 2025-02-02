@@ -8,6 +8,15 @@ namespace Project3_1.Lib
     public static class JsonParser
     {
         /// <summary>
+        /// Записывает строку в основной поток вывода.
+        /// </summary>
+        /// <param name="json">Строка для записи.</param>
+        public static void WriteJson(string json)
+        {
+            Console.WriteLine(json);
+        }
+        
+        /// <summary>
         /// Переводит JSON строку в словарь.
         /// </summary>
         /// <param name="json">JSON в виде строки</param>
@@ -72,14 +81,14 @@ namespace Project3_1.Lib
             sb.Append("{");
             if (newLines)
             {
-                sb.Append("\n");
+                sb.Append("\n ");
             }
                 
             foreach (KeyValuePair<string, string> kvp in jsonObject)
             {
                 if (newLines)
                 {
-                    sb.Append($"\t\"{kvp.Key}\"").Append(": ").Append(kvp.Value).Append(",\n");
+                    sb.Append($"\t \t \t \"{kvp.Key}\"").Append(": ").Append(kvp.Value).Append(",\n");
                 }
                 else
                 {
@@ -93,7 +102,7 @@ namespace Project3_1.Lib
             }
             if (newLines)
             {
-                sb.Append("\n");
+                sb.Append("\n \t ");
             }
             sb.Append("}");
             return sb.ToString();

@@ -1,6 +1,7 @@
 ﻿using Project3_1.Core.IOHandlers;
 using Project3_1.Lib;
 using Project3_1.Lib.JsonModels;
+using System.Text;
 
 namespace Project3_1.Core.Services
 {
@@ -15,6 +16,12 @@ namespace Project3_1.Core.Services
 
         public static bool ImportData(string source)
         {
+            if (DataImported)
+            {
+                SourceData = new();
+                DisplayData = new();
+                SortSettings = new();
+            }
             bool file = source == "file";
             if (file)
             {
@@ -64,6 +71,79 @@ namespace Project3_1.Core.Services
                     return true;
                 }
             }
+        }
+
+        public static bool CheckDataImported()
+        {
+            if (!DataImported)
+            {
+                OutputHandler.Message($"Для начала работы импортируйте данные.");
+                return false;
+            }
+
+            return true;
+        }
+        
+        public static bool ExportData(string source)
+        {
+            if (!CheckDataImported())
+            {
+                return true;
+            }
+            bool file = source == "file";
+            if (file)
+            {
+                try
+                {
+                    OutputHandler.SwitchOutputStreamToFile();
+                }
+                catch (IOException ex)
+                {
+                    return true;
+                }
+            }
+            StringBuilder sb = new();
+            sb.Append("{\n \"elements\": [");
+            FilterDisplayData();
+            int counter = 0;
+            foreach (Ability ability in DisplayData)
+            {
+                if (counter < DisplayData.Count - 1)
+                {
+                    sb.Append("\t" + ability + ",");
+                }
+                else
+                {
+                    sb.Append("\t" + ability);
+                }
+                counter++;
+            }
+            sb.Append("     ] \n}");
+            JsonParser.WriteJson(sb.ToString());
+
+            if (!file)
+            {
+                Console.WriteLine("Нажмите enter для выхода...");
+                Console.ReadLine();
+                return true;
+            }
+
+            {
+                try
+                {
+                    OutputHandler.SwitchOutputStreamToConsole();
+                    return true;
+                }
+                catch (IOException ex)
+                {
+                    return true;
+                }
+            }
+        }
+
+        private static void FilterDisplayData()
+        {
+            return;
         }
 
         private static void InitializeSorter(List<Ability> abilities)

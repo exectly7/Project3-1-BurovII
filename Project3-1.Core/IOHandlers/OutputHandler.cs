@@ -1,7 +1,10 @@
 ﻿namespace Project3_1.Core.IOHandlers
 {
-    public class OutputHandler
+    public static class OutputHandler
     {
+        private static TextWriter? _originalOutputStream;
+        public static StreamWriter? CurrentWriter;
+        
         /// <summary>
         /// Выводит гайд по меню.
         /// </summary>
@@ -33,6 +36,42 @@
                 Console.WriteLine("Нажмите enter для продолжения...");
                 Console.ReadLine();
                 Console.CursorVisible = true;
+            }
+        }
+
+        public static void SwitchOutputStreamToFile()
+        {
+            Console.Write("Введите путь к файлу: ");
+            Console.CursorVisible = true;
+            try
+            {
+                string path = Console.ReadLine() ?? string.Empty;
+                Console.CursorVisible = false;
+                CurrentWriter = new StreamWriter(path);
+                if (_originalOutputStream == null)
+                {
+                    _originalOutputStream = Console.Out;
+                }
+                Console.SetOut(CurrentWriter);
+            }
+            catch (Exception e)
+            {
+                OutputHandler.Message("Произошла ошибка при экспорте файла.");
+                throw new IOException(e.Message, e);
+            }
+        }
+
+        public static void SwitchOutputStreamToConsole()
+        {
+            if (CurrentWriter != null)
+            {
+                CurrentWriter.Close();
+                CurrentWriter = null;
+            }
+            if (_originalOutputStream != null)
+            {
+                Console.SetOut(_originalOutputStream);
+                _originalOutputStream = null;
             }
         }
     }
