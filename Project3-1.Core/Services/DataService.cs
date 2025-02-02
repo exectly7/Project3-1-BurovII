@@ -5,8 +5,14 @@ using System.Text;
 
 namespace Project3_1.Core.Services
 {
+    /// <summary>
+    /// Класс для обработки данных.
+    /// </summary>
     public static class DataService
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public static string? FilterField { get; set; }
         public static Dictionary<string, Ability> SourceData { get; set; } = new();
         public static List<Ability> DisplayData { get; set; } = new();
@@ -31,6 +37,7 @@ namespace Project3_1.Core.Services
                 }
                 catch (IOException ex)
                 {
+                    OutputHandler.Message(ex.Message);
                     return true;
                 }
             }
@@ -69,6 +76,7 @@ namespace Project3_1.Core.Services
                 }
                 catch (IOException ex)
                 {
+                    OutputHandler.Message(ex.Message);
                     return true;
                 }
             }

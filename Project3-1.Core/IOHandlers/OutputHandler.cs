@@ -1,8 +1,15 @@
 ﻿namespace Project3_1.Core.IOHandlers
 {
+    /// <summary>
+    /// Класс для вывода данных.
+    /// </summary>
     public static class OutputHandler
     {
         private static TextWriter? _originalOutputStream;
+        
+        /// <summary>
+        /// Хранит текущий поток вывода.
+        /// </summary>
         public static StreamWriter? CurrentWriter;
         
         /// <summary>
@@ -26,6 +33,11 @@
             Console.ReadLine();
         }
 
+        /// <summary>
+        /// Выводит message в консоль и ждет нажатия enter.
+        /// </summary>
+        /// <param name="message">Сообщение для вывода.</param>
+        /// <param name="wait">Отключает ожидание (опционально).</param>
         public static void Message(string message, bool wait = true)
         {
             Console.Clear();
@@ -39,6 +51,10 @@
             }
         }
 
+        /// <summary>
+        /// Меняет поток вывода в файл.
+        /// </summary>
+        /// <exception cref="IOException">Не удалось перенаправить поток выхода.</exception>
         public static void SwitchOutputStreamToFile()
         {
             Console.Write("Введите путь к файлу: ");
@@ -61,6 +77,9 @@
             }
         }
 
+        /// <summary>
+        /// Возвращает поток вывода в консоль.
+        /// </summary>
         public static void SwitchOutputStreamToConsole()
         {
             if (CurrentWriter != null)

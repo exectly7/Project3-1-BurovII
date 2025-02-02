@@ -1,17 +1,20 @@
 ﻿namespace Project3_1.Core.Menu
 {
     /// <summary>
-    /// 
+    /// Класс для меню.
     /// </summary>
     public class Menu
     {
         /// <summary>
-        /// 
+        /// Список менюайтем.
         /// </summary>
         public List<MenuItem> MenuItems { get; set; }
         
         private int _currentItem;
         
+        /// <summary>
+        /// Выводит меню в консоль.
+        /// </summary>
         public void ShowMenu()
         {
             Console.Clear();
@@ -34,16 +37,26 @@
 
         }
 
+        /// <summary>
+        /// Создает экземпляр меню по списку айтемов.
+        /// </summary>
+        /// <param name="menuItems">Список пунктов меню.</param>
         public Menu(List<MenuItem> menuItems)
         {
             MenuItems = menuItems;
         }
 
+        /// <summary>
+        /// Создает пустое меню.
+        /// </summary>
         public Menu()
         {
             MenuItems = [];
         }
         
+        /// <summary>
+        /// Логика переключения по меню.
+        /// </summary>
         public void Loop()
         {
             while (true)
@@ -70,6 +83,5 @@
                 }
             }
         }
-        
     }
 }
