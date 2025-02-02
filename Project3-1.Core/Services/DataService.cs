@@ -10,7 +10,7 @@ namespace Project3_1.Core.Services
         public static string? FilterField { get; set; }
         public static Dictionary<string, Ability> SourceData { get; set; } = new();
         public static List<Ability> DisplayData { get; set; } = new();
-        public static Dictionary<string, Dictionary<string, bool>?> SortSettings { get; set; } = new();
+        public static Dictionary<string, Dictionary<string, bool>> FilterSettings { get; set; } = new();
         
         public static bool DataImported { get; set; } = false;
 
@@ -20,7 +20,7 @@ namespace Project3_1.Core.Services
             {
                 SourceData = new();
                 DisplayData = new();
-                SortSettings = new();
+                FilterSettings = new();
             }
             bool file = source == "file";
             if (file)
@@ -34,7 +34,8 @@ namespace Project3_1.Core.Services
                     return true;
                 }
             }
-
+            Console.Clear();
+            Console.WriteLine("Введите json, по окончанию ввода введите END с новой строки.");
             string json = JsonParser.ReadJson();
             
             try
@@ -44,7 +45,7 @@ namespace Project3_1.Core.Services
                 foreach (string ability in abilities)
                 {
                     Ability temp = new(ability);
-                    SourceData.Add(temp.Id, temp);
+                    SourceData.TryAdd(temp.Id, temp);
                     DisplayData.Add(temp);
                 }
                 InitializeSorter(DisplayData);
@@ -154,8 +155,8 @@ namespace Project3_1.Core.Services
                 {
                     foreach (string fieldName in ability.GetFieldsToFilter())
                     {
-                        SortSettings.TryAdd(fieldName, new Dictionary<string, bool>());
-                        SortSettings[fieldName]?.TryAdd(ability.GetField(fieldName) ?? throw new InvalidOperationException(), true);
+                        FilterSettings.TryAdd(fieldName, new Dictionary<string, bool>());
+                        FilterSettings[fieldName]?.TryAdd(ability.GetField(fieldName) ?? throw new InvalidOperationException(), true);
                     }
                 }
             }

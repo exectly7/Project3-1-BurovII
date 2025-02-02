@@ -14,6 +14,9 @@
                   <Item>
                     <option name="path" value="Project3-1.Core/Test.json" />
                   </Item>
+                  <Item>
+                    <option name="path" value="Project3-1.Core/NewFile1.json" />
+                  </Item>
                 </list>
               </option>
             </SchemaInfo>

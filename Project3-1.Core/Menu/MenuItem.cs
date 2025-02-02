@@ -1,4 +1,6 @@
-﻿namespace Project3_1.Core.Menu
+﻿using Project3_1.Core.Services;
+
+namespace Project3_1.Core.Menu
 {
     public class MenuItem
     {
@@ -14,21 +16,21 @@
             Parameter = parameter;
         }
 
-        /*public bool Switch(string parameter)
+        public bool Switch(string parameter)
         {
             string field = parameter.Split("\u2600")[0];
             string value = parameter.Split("\u2600")[1];
             
-            if (Program.SortSettings[field][value])
+            if (DataService.FilterSettings[field][value])
             {
                 Title = Title.Substring(0, Title.Length - 2);
             }
             else
             {
-                Title += " \u2713";
+                Title += " +";
             }
-            Program.SortSettings[field][value] = !Program.SortSettings[field][value];
+            DataService.FilterSettings[field][value] = !DataService.FilterSettings[field][value];
             return false;
-        }*/
+        }
     }
 }
