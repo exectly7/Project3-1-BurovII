@@ -11,7 +11,8 @@ namespace Project3_1.Lib.JsonModels
         /// <summary>
         /// Хранит имена полей, по которым можно фильтровать/сортировать.
         /// </summary>
-        public static readonly List<string> FieldsToFilter = ["id"];
+        public static readonly List<string> FieldsToFilter = ["id", "label", "desc", "icon", "inhertis", "decayto", 
+            "lifetime", "noartneeded", "resaturate"];
 
         /// <summary>
         /// Содержит список проинициализированных полей.

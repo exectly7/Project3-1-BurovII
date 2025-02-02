@@ -119,9 +119,9 @@ namespace Project3_1.Core.Services
             }
             StringBuilder sb = new();
             sb.Append("{\n \"elements\": [");
-            FilterDisplayData();
+            List<Ability> filtredDisplayData = FilterDisplayData();
             int counter = 0;
-            foreach (Ability ability in DisplayData)
+            foreach (Ability ability in filtredDisplayData)
             {
                 if (counter < DisplayData.Count - 1)
                 {
@@ -156,10 +156,32 @@ namespace Project3_1.Core.Services
             }
         }
 
-        private static void FilterDisplayData()
+        private static List<Ability> FilterDisplayData()
         {
-            return;
+            bool flag = true;
+            List<Ability> filtredDisplayData = new();
+            foreach (Ability ability in DisplayData)
+            {
+                foreach (string field in ability.GetFieldsToFilter())
+                {
+                    flag = FilterSettings[field][ability.GetField(field)];
+                    if (!flag)
+                    {
+                        break;
+                    }
+                }
+
+                if (flag)
+                {
+                    filtredDisplayData.Add(ability);
+                }
+                
+                
+                flag = true;
+            }
+            return filtredDisplayData;
         }
+        
 
         private static void InitializeSorter(List<Ability> abilities)
         {
