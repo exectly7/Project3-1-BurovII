@@ -3,7 +3,7 @@
     /// <summary>
     /// Содержит методы, нужные для работы с представлениями JSON объектов.
     /// </summary>
-    public interface IJSONObject
+    public interface IJsonObject
     {
         /// <summary>
         /// Содержит множество проинициализированных полей.

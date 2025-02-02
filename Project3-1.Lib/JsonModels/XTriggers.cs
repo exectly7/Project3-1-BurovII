@@ -1,6 +1,6 @@
 ﻿namespace Project3_1.Lib.JsonModels
 {
-    public class XTriggers : IJSONObject
+    public class XTriggers : IJsonObject
     {
         /// <summary>
         /// Содержит список проинициализированных полей.

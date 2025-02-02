@@ -1,6 +1,6 @@
 ﻿namespace Project3_1.Lib.JsonModels
 {
-    public class Aspects : IJSONObject
+    public class Aspects : IJsonObject
     {
         /// <summary>
         /// Содержит список проинициализированных полей.
@@ -41,13 +41,14 @@
                 case "fatiguing":
                     return JsonParser.StringToQuotedString(Fatiguing);
                 case "fatiguing.ability":
-                    return JsonParser.StringToQuotedString(FatiguingAbility);
+                    //return JsonParser.StringToQuotedString(FatiguingAbility);
                 case "malady.inflicting":
-                    return JsonParser.StringToQuotedString(MaladyInflicting);
+                    //return JsonParser.StringToQuotedString(MaladyInflicting);
                 case "contamination.bloodlines":
-                    return JsonParser.StringToQuotedString(ContamintationBloodlines);
+                   // return JsonParser.StringToQuotedString(ContamintationBloodlines);
                 case "contamination.keeperskin":
-                    return JsonParser.StringToQuotedString(ContaminationKeeperskin);
+                    break;
+                // return JsonParser.StringToQuotedString(ContaminationKeeperskin);
                 
             }
             return null;
@@ -63,19 +64,19 @@
                     InitializedFields.Add("fatiguing");
                     break;
                 case "fatiguing.ability":
-                    FatiguingAbility = value[1..^1]; 
+                    //FatiguingAbility = value[1..^1]; 
                     InitializedFields.Add("fatiguing.ability");
                     break;
                 case "malady.inflicting":
-                    MaladyInflicting = value[1..^1]; 
+                    //MaladyInflicting = value[1..^1]; 
                     InitializedFields.Add("malady.inflicting");
                     break;
                 case "contamination.bloodlines":
-                    ContamintationBloodlines = value[1..^1]; 
+                    //ContamintationBloodlines = value[1..^1]; 
                     InitializedFields.Add("contamination.bloodlines");
                     break;
                 case "contamination.keeperskin":
-                    ContaminationKeeperskin = value[1..^1]; 
+                    //ContaminationKeeperskin = value[1..^1]; 
                     InitializedFields.Add("contamination.keeperskin");
                     break;
                 

@@ -1,12 +1,18 @@
-﻿using System.Text;
+﻿using System.Collections;
+using System.Text;
 
 namespace Project3_1.Lib.JsonModels
 {
     /// <summary>
     /// Представление JSON объекта ability.
     /// </summary>
-    public class Ability : IJSONObject
+    public class Ability : IJsonObject
     {
+        /// <summary>
+        /// Хранит имена полей, по которым можно фильтровать/сортировать.
+        /// </summary>
+        public static readonly List<string> FieldsToFilter = ["id"];
+
         /// <summary>
         /// Содержит список проинициализированных полей.
         /// </summary>
@@ -15,7 +21,7 @@ namespace Project3_1.Lib.JsonModels
         /// <summary>
         /// Поле id.
         /// </summary>
-        public string? Id { get; private set; }
+        public string Id { get; private set; }
         
         /// <summary>
         /// Поле label.
@@ -70,6 +76,11 @@ namespace Project3_1.Lib.JsonModels
             foreach (KeyValuePair<string, string> field in ability)
             {
                 SetField(field.Key, field.Value);    
+            }
+
+            if (!InitializedFields.Contains("id"))
+            {
+                throw new FormatException("Invalid JSON");
             }
         }
 
@@ -169,6 +180,20 @@ namespace Project3_1.Lib.JsonModels
                 ability[field] = GetField(field);
             }
             return JsonParser.CreateJson(ability);
+        }
+
+        public string[] GetFieldsToFilter()
+        {
+            List<string> fieldsToFilter = new();
+            foreach (string field in GetAllFields())
+            {
+                if (FieldsToFilter.Contains(field))
+                {
+                    fieldsToFilter.Add(field);
+                }
+            }
+            
+            return fieldsToFilter.ToArray();
         }
     }
 }
