@@ -7,6 +7,10 @@
         /// </summary>
         public Dictionary<string, int> AspectsDictionary { get; private set; }
 
+        /// <summary>
+        /// Конструктор aspects.
+        /// </summary>
+        /// <param name="source">строка аспектов.</param>
         public Aspects(string source)
         {
             AspectsDictionary = new Dictionary<string, int>();
@@ -18,6 +22,9 @@
             }
         }
 
+        /// <summary>
+        /// Множество проинициализированных полей.
+        /// </summary>
         public HashSet<string> InitializedFields { get; set; }
 
         /// <summary>

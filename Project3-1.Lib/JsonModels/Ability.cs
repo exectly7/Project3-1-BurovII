@@ -80,6 +80,11 @@ namespace Project3_1.Lib.JsonModels
         public Aspects? Aspects { get; private set; }
 
 
+        /// <summary>
+        /// Конструктор абилити.
+        /// </summary>
+        /// <param name="source">строка с абилити.</param>
+        /// <exception cref="FormatException">Некорректный json.</exception>
         public Ability(string source)
         {
             Dictionary<string, string> ability = JsonParser.ParseObject(source);
@@ -95,11 +100,20 @@ namespace Project3_1.Lib.JsonModels
             }
         }
 
+        /// <summary>
+        /// Возвращает инициализированные поля.
+        /// </summary>
+        /// <returns>Массив инициализированных полей.</returns>
         public IEnumerable<string> GetAllFields()
         {
             return InitializedFields.ToArray();
         }
 
+        /// <summary>
+        /// Возвращет поле по названию.
+        /// </summary>
+        /// <param name="fieldName">Название поля.</param>
+        /// <returns>Возвращает строку со значением.</returns>
         public string? GetField(string fieldName)
         {
             if (!InitializedFields.Contains(fieldName))
@@ -137,6 +151,11 @@ namespace Project3_1.Lib.JsonModels
             return null;
         }
         
+        /// <summary>
+        /// Задает значение полю по его названию.
+        /// </summary>
+        /// <param name="fieldName">Название поля.</param>
+        /// <param name="value">Значение поля.</param>
         public void SetField(string fieldName, string value) 
         {
             switch (fieldName)
@@ -194,6 +213,10 @@ namespace Project3_1.Lib.JsonModels
             return;
         }
 
+        /// <summary>
+        /// Переводит объект в json строку.
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             Dictionary<string, string> ability = new();
@@ -204,6 +227,10 @@ namespace Project3_1.Lib.JsonModels
             return JsonParser.CreateJson(ability);
         }
 
+        /// <summary>
+        /// Возвращает массив полей по которым можно фильтровать.
+        /// </summary>
+        /// <returns></returns>
         public string[] GetFieldsToFilter()
         {
             List<string> fieldsToFilter = new();

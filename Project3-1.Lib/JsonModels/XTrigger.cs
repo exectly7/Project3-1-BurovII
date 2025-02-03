@@ -19,6 +19,10 @@
         /// </summary>
         public int? Level { get; private set; }
 
+        /// <summary>
+        /// Конструктор xtrigger.
+        /// </summary>
+        /// <param name="source">json строка.</param>
         public XTrigger(string source)
         {
             InitializedFields = [];
@@ -36,11 +40,20 @@
             }
         }
 
+        /// <summary>
+        /// Возвращает все возвожные поля.
+        /// </summary>
+        /// <returns> Возвращает все возвожные поля.</returns>
         public IEnumerable<string> GetAllFields()
         {
             return InitializedFields.ToArray();
         }
 
+        /// <summary>
+        /// Возвращает значение поля.
+        /// </summary>
+        /// <param name="fieldName">Имя поля.</param>
+        /// <returns>Значение.</returns>
         public string GetField(string fieldName)
         {
             if (!InitializedFields.Contains(fieldName))
@@ -60,6 +73,11 @@
             return null;
         }
 
+        /// <summary>
+        /// Ставит значение поля.
+        /// </summary>
+        /// <param name="fieldName">Имя поля.</param>
+        /// <param name="value">Возвращает значение.</param>
         public void SetField(string fieldName, string value)
         {
             switch (fieldName)
@@ -80,6 +98,10 @@
             return;
         }
         
+        /// <summary>
+        /// Возвращает строку.
+        /// </summary>
+        /// <returns>Возвращает строку.</returns>
         public override string ToString()
         {
             Dictionary<string, string> xTrigger = new();

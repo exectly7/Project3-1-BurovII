@@ -8,6 +8,7 @@ using Project3_1.Core.IOHandlers;
 using Project3_1.Core.Services;
 using Project3_1.Lib;
 using Project3_1.Lib.JsonModels;
+using SkiaSharp;
 using System.Text;
 
 namespace Project3_1.Core
@@ -29,6 +30,9 @@ namespace Project3_1.Core
             Console.Clear();
             CreateMenu.MainMenu();
         }
+        
+
+
 
         /// <summary>
         /// Метод для завершения работы.
@@ -41,3 +45,6 @@ namespace Project3_1.Core
         }
     }
 }
+
+
+            

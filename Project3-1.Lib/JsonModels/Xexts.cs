@@ -52,6 +52,11 @@
         /// </summary>
         public string? ContaminationWitchworms { get; private set; }
 
+        
+        /// <summary>
+        /// Конструктор xexts.
+        /// </summary>
+        /// <param name="source">Строка xexts.</param>
         public Xexts(string source)
         {
             Dictionary<string, string> xexts = JsonParser.ParseObject(source);
@@ -62,11 +67,20 @@
             }
         }
 
+        /// <summary>
+        /// Возвращает все проинициализированные поля.
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<string> GetAllFields()
         {
             return InitializedFields.ToArray();
         }
 
+        /// <summary>
+        /// Возвращает значение поля по названию.
+        /// </summary>
+        /// <param name="fieldName">Название поля.</param>
+        /// <returns>Значение поля.</returns>
         public string? GetField(string fieldName)
         {
             if (!InitializedFields.Contains(fieldName))
@@ -99,6 +113,11 @@
             return null;
         }
 
+        /// <summary>
+        /// Устанавливает значение поля.
+        /// </summary>
+        /// <param name="fieldName">Имя поля.</param>
+        /// <param name="value">Значение.</param>
         public void SetField(string fieldName, string value) 
         {
             switch (fieldName)

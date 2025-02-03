@@ -82,6 +82,10 @@
         /// </summary>
         public XTrigger? MaladyCuring { get; private set; }
 
+        /// <summary>
+        /// Конструктор xtriggers.
+        /// </summary>
+        /// <param name="source"></param>
         public XTriggers(string source)
         {
             Dictionary<string, string> ability = JsonParser.ParseObject(source);
@@ -92,11 +96,20 @@
             }
         }
 
+        /// <summary>
+        /// Возвращает названия всех полей.
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<string> GetAllFields()
         {
             return InitializedFields.ToArray(); // Выбрать массив или лист.
         }
 
+        /// <summary>
+        /// Возвращает значение поля.
+        /// </summary>
+        /// <param name="fieldName">Название поля.</param>
+        /// <returns>Возвращает значение поля.</returns>
         public string? GetField(string fieldName)
         {
             
@@ -144,6 +157,11 @@
         }
 
         // Видит Бог я не хотел хранить это в полях.
+        /// <summary>
+        /// Устанавливает значение полю.
+        /// </summary>
+        /// <param name="fieldName">Имя поля.</param>
+        /// <param name="value">Значение поля.</param>
         public void SetField(string fieldName, string value) 
         {
             switch (fieldName)
@@ -215,6 +233,10 @@
             }
         }
 
+        /// <summary>
+        /// Возваращает xtriggers в виде строки.
+        /// </summary>
+        /// <returns>Возваращает xtriggers в виде строки.</returns>
         public override string ToString()
         {
             Dictionary<string, string> xTriggers = new();

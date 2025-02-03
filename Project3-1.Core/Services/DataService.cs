@@ -6,20 +6,35 @@ using System.Text;
 namespace Project3_1.Core.Services
 {
     /// <summary>
-    /// Класс для обработки данных.
+    /// Класс для обработки данных, включая импорт, экспорт и фильтрацию.
     /// </summary>
     public static class DataService
     {
         /// <summary>
-        /// 
+        /// Исходные данные.
         /// </summary>
-        public static string? FilterField { get; set; }
         public static Dictionary<string, Ability> SourceData { get; set; } = new();
+
+        /// <summary>
+        /// Данные для отображения.
+        /// </summary>
         public static List<Ability> DisplayData { get; set; } = new();
+
+        /// <summary>
+        /// Настройки фильтров.
+        /// </summary>
         public static Dictionary<string, Dictionary<string, bool>> FilterSettings { get; set; } = new();
         
+        /// <summary>
+        /// Флаг, указывающий, были ли данные импортированы.
+        /// </summary>
         public static bool DataImported { get; set; } = false;
 
+        /// <summary>
+        /// Импортирует данные из источника (файл или ввод с консоли).
+        /// </summary>
+        /// <param name="source">Источник данных.</param>
+        /// <returns>Возвращает true, если данные импортированы успешно.</returns>
         public static bool ImportData(string source)
         {
             if (DataImported)
@@ -28,6 +43,7 @@ namespace Project3_1.Core.Services
                 DisplayData = new();
                 FilterSettings = new();
             }
+
             bool file = source == "file";
             if (file)
             {
@@ -74,20 +90,22 @@ namespace Project3_1.Core.Services
                 return true;
             }
 
+            try
             {
-                try
-                {
-                    InputHandler.SwitchInputStreamToConsole();
-                    return true;
-                }
-                catch (IOException ex)
-                {
-                    OutputHandler.Message(ex.Message);
-                    return true;
-                }
+                InputHandler.SwitchInputStreamToConsole();
+                return true;
+            }
+            catch (IOException ex)
+            {
+                OutputHandler.Message(ex.Message);
+                return true;
             }
         }
 
+        /// <summary>
+        /// Проверяет, были ли данные импортированы.
+        /// </summary>
+        /// <returns>Возвращает true, если данные импортированы, иначе выводит сообщение об ошибке.</returns>
         public static bool CheckDataImported()
         {
             if (!DataImported)
@@ -99,12 +117,18 @@ namespace Project3_1.Core.Services
             return true;
         }
         
+        /// <summary>
+        /// Экспортирует данные в источник (файл или вывод в консоль).
+        /// </summary>
+        /// <param name="source">Источник данных.</param>
+        /// <returns>Возвращает true, если экспорт выполнен успешно.</returns>
         public static bool ExportData(string source)
         {
             if (!CheckDataImported())
             {
                 return true;
             }
+
             bool file = source == "file";
             if (file)
             {
@@ -117,6 +141,7 @@ namespace Project3_1.Core.Services
                     return true;
                 }
             }
+
             StringBuilder sb = new();
             sb.Append("{\n \"elements\": [");
             List<Ability> filtredDisplayData = FilterDisplayData();
@@ -143,19 +168,21 @@ namespace Project3_1.Core.Services
                 return true;
             }
 
+            try
             {
-                try
-                {
-                    OutputHandler.SwitchOutputStreamToConsole();
-                    return true;
-                }
-                catch (IOException ex)
-                {
-                    return true;
-                }
+                OutputHandler.SwitchOutputStreamToConsole();
+                return true;
+            }
+            catch (IOException ex)
+            {
+                return true;
             }
         }
 
+        /// <summary>
+        /// Фильтрует данные для отображения в соответствии с настройками фильтров.
+        /// </summary>
+        /// <returns>Отфильтрованные данные для отображения.</returns>
         private static List<Ability> FilterDisplayData()
         {
             bool flag = true;
@@ -176,13 +203,15 @@ namespace Project3_1.Core.Services
                     filtredDisplayData.Add(ability);
                 }
                 
-                
                 flag = true;
             }
             return filtredDisplayData;
         }
-        
 
+        /// <summary>
+        /// Инициализирует настройки сортировки для данных.
+        /// </summary>
+        /// <param name="abilities">Список способностей для инициализации сортировки.</param>
         private static void InitializeSorter(List<Ability> abilities)
         {
             try

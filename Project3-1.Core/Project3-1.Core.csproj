@@ -12,4 +12,12 @@
       <ProjectReference Include="..\Project3-1.Lib\Project3-1.Lib.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="SkiaSharp" Version="3.118.0-preview.2.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Output\" />
+    </ItemGroup>
+
 </Project>

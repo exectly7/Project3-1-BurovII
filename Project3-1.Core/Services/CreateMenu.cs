@@ -21,13 +21,18 @@ namespace Project3_1.Core.Services
                 new MenuItem("Отфильтровать данные", FilterMenu),
                 new MenuItem("Отсортировать данные", SortMenu),
                 new MenuItem("Обозреватель XTriggers", ShowTriggersMenu),
-                /*new MenuItem("Показать способности", ShowAbilities), */
+                new MenuItem("Показать способности", AdditionalTask.Task),
                 new MenuItem("Вывести данные (консоль/файл)", OutputDataMenu),
                 new MenuItem("Выход", Program.Exit)
             ]);
             mainMenu.Loop();
         }
         
+        /// <summary>
+        /// Меню для ввода данных (консоль/файл).
+        /// </summary>
+        /// <param name="parameter">Параметр для метода.</param>
+        /// <returns>Возвращает false.</returns>
         private static bool InputDataMenu(string parameter)
         {
             Menu.Menu inputMenu = new([
@@ -38,6 +43,11 @@ namespace Project3_1.Core.Services
             return false;
         }
         
+        /// <summary>
+        /// Меню для вывода данных (консоль/файл).
+        /// </summary>
+        /// <param name="parameter">Параметр для метода.</param>
+        /// <returns>Возвращает false.</returns>
         private static bool OutputDataMenu(string parameter)
         {
             Menu.Menu outputMenu = new([
@@ -48,6 +58,11 @@ namespace Project3_1.Core.Services
             return false;
         }
         
+        /// <summary>
+        /// Меню для фильтрации данных.
+        /// </summary>
+        /// <param name="parameter">Параметр для метода.</param>
+        /// <returns>Возвращает false.</returns>
         private static bool FilterMenu(string parameter)
         {
             if (!DataService.CheckDataImported())
@@ -65,34 +80,39 @@ namespace Project3_1.Core.Services
             return false;
         }
         
+        /// <summary>
+        /// Подменю для фильтрации данных по полям.
+        /// </summary>
+        /// <param name="field">Поле для фильтрации.</param>
+        /// <returns>Возвращает false.</returns>
         private static bool SubFilterMenu(string field)
         {
             Menu.Menu filterMenu = new();
             foreach (KeyValuePair<string, bool> kvp in DataService.FilterSettings[field])
             {
-                if (kvp.Value)
-                {
-                    MenuItem item = new MenuItem($"{kvp.Key[1..^1]} +", parameter: $"{field}\u2600{kvp.Key}");
-                    ((IList)filterMenu.MenuItems).Add(item);
-                    item.Action += item.Switch;
-                }
-                else
-                {
-                    MenuItem item = new MenuItem($"{kvp.Key[1..^1]}", parameter: $"{field}\u2600{kvp.Key}");
-                    ((IList)filterMenu.MenuItems).Add(item);
-                    item.Action += item.Switch;
-                }
+                MenuItem item = kvp.Value
+                    ? new MenuItem($"{kvp.Key[1..^1]} +", parameter: $"{field}\u2600{kvp.Key}")
+                    : new MenuItem($"{kvp.Key[1..^1]}", parameter: $"{field}\u2600{kvp.Key}");
+
+                ((IList)filterMenu.MenuItems).Add(item);
+                item.Action += item.Switch;
             }
             filterMenu.Loop();
             return false;
         }
 
+        /// <summary>
+        /// Меню для сортировки данных.
+        /// </summary>
+        /// <param name="parameter">Параметр для метода.</param>
+        /// <returns>Возвращает false.</returns>
         private static bool SortMenu(string parameter)
         {
             if (!DataService.CheckDataImported())
             {
                 return false;
             }
+
             List<MenuItem> sortMenuItems = new();
             foreach (string field in DataService.FilterSettings.Keys)
             {
@@ -103,19 +123,28 @@ namespace Project3_1.Core.Services
             return false;
         }
         
-        
+        /// <summary>
+        /// Подменю для выбора способа сортировки.
+        /// </summary>
+        /// <param name="field">Поле для сортировки.</param>
+        /// <returns>Возвращает false.</returns>
         private static bool SortOptionsMenu(string field)
         {
-            List<MenuItem> menuItems =
-            [
+            List<MenuItem> menuItems = new()
+            {
                 new MenuItem("По возрастанию", Sorter.DoSortUp, field),
                 new MenuItem("По убыванию", Sorter.DoSortDown, field)
-            ];
+            };
             Menu.Menu inputMenu = new(menuItems);
             inputMenu.Loop();
             return false;
         }
         
+        /// <summary>
+        /// Меню для отображения всех триггеров.
+        /// </summary>
+        /// <param name="parameter">Параметр для метода.</param>
+        /// <returns>Возвращает false.</returns>
         private static bool ShowTriggersMenu(string parameter)
         {
             List<MenuItem> menuItems = new();
@@ -129,6 +158,11 @@ namespace Project3_1.Core.Services
             return false;
         }
 
+        /// <summary>
+        /// Отображает информацию о триггере по его Id.
+        /// </summary>
+        /// <param name="id">Идентификатор триггера.</param>
+        /// <returns>Возвращает false.</returns>
         private static bool DisplayTrigger(string id)
         {
             TriggerExplorer.Display(DataService.SourceData[id]);
